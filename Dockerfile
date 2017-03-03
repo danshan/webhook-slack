@@ -7,11 +7,12 @@ ENV APP_NAME webhook-slack
 
 RUN mkdir -p ${DATA_DIR}
 RUN useradd ${APP_USER} -m
+
+ADD . /opt/data/${APP_NAME}
 RUN chown -R ${APP_USER} ${DATA_DIR}
 
 USER webhook
 
-ADD . /opt/data/${APP_NAME}
 WORKDIR /opt/data/${APP_NAME}
 RUN mvn clean package
 RUN java -jar target/${APP_NAME}.jar
