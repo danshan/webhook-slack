@@ -17,5 +17,6 @@ WORKDIR ${DATA_DIR}/${APP_NAME}
 RUN mvn clean package
 
 ADD bin/entrypoint.sh ${DATA_DIR}/entrypoint.sh
+RUN ls /opt/data
 ENTRYPOINT ["$DATA_DIR/entrypoint.sh"]
 
