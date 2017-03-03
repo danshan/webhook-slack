@@ -1,8 +1,11 @@
 package com.shanhh.webhook.controller;
 
 import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
+import com.shanhh.webhook.daocloud.service.DaocloudService;
+import com.shanhh.webhook.slack.beans.Hook;
+import com.shanhh.webhook.slack.beans.SlackPayload;
+import com.shanhh.webhook.slack.service.SlackService;
 
-import org.apache.http.client.HttpClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,11 +24,14 @@ import javax.annotation.Resource;
 public class WebhookController {
 
     @Resource
-    private HttpClient httpClient;
+    private DaocloudService daocloudService;
+    @Resource
+    private SlackService slackService;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
     public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
-        return "";
+        SlackPayload slackPayload = daocloudService.exec(payload);
+        return slackService.send(Hook.DAOCLOUD, slackPayload);
     }
 
 }

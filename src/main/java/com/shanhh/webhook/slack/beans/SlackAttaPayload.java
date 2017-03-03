@@ -2,6 +2,7 @@ package com.shanhh.webhook.slack.beans;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -48,6 +49,7 @@ public class SlackAttaPayload implements SlackPayload {
     private List<Attachment> attachments;
 
     @Data
+    @Builder
     public static class Attachment implements Serializable {
         /**
          * A plain-text summary of the attachment. This text will be used in clients that don't show
@@ -183,13 +185,16 @@ public class SlackAttaPayload implements SlackPayload {
          */
         private long ts;
 
+        @JsonProperty("mrkdwn_in")
+        private List<String> mrkdwnIn;
+
         /**
          * Fields are defined as an array, and hashes contained within it will be displayed in a
          * table inside the message attachment.
          */
         @Data
+        @Builder
         public static class Field implements Serializable {
-
 
             /**
              * Shown as a bold heading above the value text. It cannot contain markup and will be
