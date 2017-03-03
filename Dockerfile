@@ -16,5 +16,5 @@ USER webhook
 WORKDIR /opt/data/${APP_NAME}
 RUN mvn clean package
 
-ENTRYPOINT ["java", "-jar", "-Dslack.daocloud=$SLACK_DAOCLOUD", "/opt/data/${APP_NAME}/target/$APP_NAME.jar"]
+ENTRYPOINT ["java", "-jar", "-Dslack.daocloud=$SLACK_DAOCLOUD", "/opt/data/$APP_NAME/target/$APP_NAME.jar"]
 
