@@ -1,0 +1,3 @@
+webhooks:
+  daocloud:
+    enabled: true

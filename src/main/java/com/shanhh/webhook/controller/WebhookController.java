@@ -1,6 +1,9 @@
 package com.shanhh.webhook.controller;
 
+import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
+
 import org.apache.http.client.HttpClient;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,7 +24,7 @@ public class WebhookController {
     private HttpClient httpClient;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
-    public String daocloud() throws IOException {
+    public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
         return "";
     }
 

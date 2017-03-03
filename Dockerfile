@@ -15,5 +15,6 @@ USER webhook
 
 WORKDIR /opt/data/${APP_NAME}
 RUN mvn clean package
-RUN java -jar target/${APP_NAME}.jar
+
+ENTRYPOINT ["java", "-jar", "target/$APP_NAME.jar"]
 
