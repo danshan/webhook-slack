@@ -8,13 +8,14 @@ ENV APP_NAME webhook-slack
 RUN mkdir -p ${DATA_DIR}
 RUN useradd ${APP_USER} -m
 
-ADD . /opt/data/${APP_NAME}
+ADD . ${DATA_DIR}/${APP_NAME}
 RUN chown -R ${APP_USER} ${DATA_DIR}
 
-USER webhook
+USER ${APP_USER}
 
-WORKDIR /opt/data/${APP_NAME}
+WORKDIR ${DATA_DIR}/${APP_NAME}
 RUN mvn clean package
 
-ENTRYPOINT ["java", "-jar", "-Dslack.daocloud=$SLACK_DAOCLOUD", "/opt/data/$APP_NAME/target/$APP_NAME.jar"]
+ADD bin/entrypoint.sh ${DATA_DIR}/entrypoint.sh
+ENTRYPOINT ["${DATA_DIR}/entrypoint.sh"]
 
