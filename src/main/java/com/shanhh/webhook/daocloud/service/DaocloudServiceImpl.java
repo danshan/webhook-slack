@@ -90,7 +90,7 @@ public class DaocloudServiceImpl implements DaocloudService {
     }
 
     private String buildFallback(DaocloudPayload payload) {
-        return String.format("*%s* %s %s",
+        return String.format("%s %s %s",
                 payload.getRepo(),
                 buildOperation(payload),
                 payload.getBuild().getStatus());
