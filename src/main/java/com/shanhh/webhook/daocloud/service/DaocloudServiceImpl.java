@@ -70,6 +70,7 @@ public class DaocloudServiceImpl implements DaocloudService {
         SlackAttaPayload.Attachment attachment = SlackAttaPayload.Attachment.builder()
                 .title(payload.getImage())
                 .text(buildText(payload))
+                .fallback(buildFallback(payload))
                 .color(selectColor(payload.getBuild().getStatus()))
                 .mrkdwnIn(Arrays.asList("text"))
                 .authorName(payload.getBuild().getAuthor())
@@ -82,6 +83,14 @@ public class DaocloudServiceImpl implements DaocloudService {
 
     private String buildText(DaocloudPayload payload) {
         return String.format("*%s* %s `%s`",
+                payload.getRepo(),
+                buildOperation(payload),
+                payload.getBuild().getStatus());
+
+    }
+
+    private String buildFallback(DaocloudPayload payload) {
+        return String.format("*%s* %s %s",
                 payload.getRepo(),
                 buildOperation(payload),
                 payload.getBuild().getStatus());
