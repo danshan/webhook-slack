@@ -25,6 +25,10 @@ public class DaocloudServiceImpl implements DaocloudService {
 
     @Override
     public SlackPayload exec(DaocloudPayload payload) {
+        if (checkSkip(payload)) {
+            return null;
+        }
+
         SlackAttaPayload slack = new SlackAttaPayload();
 
         List<SlackAttaPayload.Attachment.Field> fields = Lists.newLinkedList();
@@ -81,6 +85,18 @@ public class DaocloudServiceImpl implements DaocloudService {
         return slack;
     }
 
+    private boolean checkSkip(DaocloudPayload payload) {
+        switch (payload.getBuild().getStatus()) {
+            case "Success":
+            case "Failure":
+            case "Error":
+            case "Started":
+                return false;
+            default:
+                return true;
+        }
+    }
+
     private String buildText(DaocloudPayload payload) {
         return String.format("*%s* %s `%s`",
                 payload.getRepo(),
@@ -90,7 +106,7 @@ public class DaocloudServiceImpl implements DaocloudService {
     }
 
     private String buildFallback(DaocloudPayload payload) {
-        return String.format("*%s* %s %s",
+        return String.format("%s %s %s",
                 payload.getRepo(),
                 buildOperation(payload),
                 payload.getBuild().getStatus());

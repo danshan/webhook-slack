@@ -36,6 +36,9 @@ public class SlackServiceImpl implements SlackService {
 
     @Override
     public String send(Hook hook, SlackPayload payload) {
+        if (payload == null) {
+            return "skip";
+        }
         HttpPost request = new HttpPost(getHookUrl(hook));
         request.addHeader("Content-Type", "application/json");
 
