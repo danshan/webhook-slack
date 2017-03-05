@@ -14,6 +14,12 @@
 
 * [DaoCloud](https://www.daocloud.io/)
 
+![DaoCloud](docs/daocloud.png)
+
+* [MicroBadger](https://microbadger.com)
+
+![MicroBadger](docs/microbadger.png)
+
 ## Create Webhook
 
 在 [Slack Apps](https://api.slack.com/apps) 中创建一个 App, 以 DaoCloud 为例:
