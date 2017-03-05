@@ -2,6 +2,8 @@ package com.shanhh.webhook.controller;
 
 import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
 import com.shanhh.webhook.daocloud.service.DaocloudService;
+import com.shanhh.webhook.microbadger.beans.MicrobadgerPayload;
+import com.shanhh.webhook.microbadger.service.MicrobadgerService;
 import com.shanhh.webhook.slack.beans.Hook;
 import com.shanhh.webhook.slack.beans.SlackPayload;
 import com.shanhh.webhook.slack.service.SlackService;
@@ -26,12 +28,20 @@ public class WebhookController {
     @Resource
     private DaocloudService daocloudService;
     @Resource
+    private MicrobadgerService microbadgerService;
+    @Resource
     private SlackService slackService;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
     public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
         SlackPayload slackPayload = daocloudService.exec(payload);
         return slackService.send(Hook.DAOCLOUD, slackPayload);
+    }
+
+    @RequestMapping(value = "microbadger", method = RequestMethod.POST)
+    public String daocloud(@RequestBody MicrobadgerPayload payload) throws IOException {
+        SlackPayload slackPayload = microbadgerService.exec(payload);
+        return slackService.send(Hook.MICROBADGER, slackPayload);
     }
 
 }

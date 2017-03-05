@@ -1,2 +1,3 @@
 slack:
-  daocloud:
+  daocloud: https://hooks.slack.com/services/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
+  microbadger: https://hooks.slack.com/services/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
