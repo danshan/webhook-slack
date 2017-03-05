@@ -14,7 +14,7 @@
 
 在 [Slack Apps](https://api.slack.com/apps) 中创建一个 App, 以 DaoCloud 为例:
 
-![DaoCloud](docs/daocloud.png)
+![DaoCloud](docs/daocloud_app.png)
 
 进入应用后可以给你的应用设置它的 icon.
 
