@@ -16,4 +16,6 @@ public class SlackConfig {
     @Value("${slack.daocloud}")
     private String slackForDaocloud;
 
+    @Value("${slack.microbadger}")
+    private String slackForMicrobadger;
 }

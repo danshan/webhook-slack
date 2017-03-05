@@ -57,6 +57,8 @@ public class SlackServiceImpl implements SlackService {
         switch (hook) {
             case DAOCLOUD:
                 return slackConfig.getSlackForDaocloud();
+            case MICROBADGER:
+                return slackConfig.getSlackForMicrobadger();
             default:
                 throw new IllegalArgumentException("unsupported webhook");
         }

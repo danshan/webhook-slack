@@ -5,5 +5,5 @@ package com.shanhh.webhook.slack.beans;
  * @since 2017-03-03 22:45
  */
 public enum Hook {
-    DAOCLOUD
+    MICROBADGER, DAOCLOUD
 }

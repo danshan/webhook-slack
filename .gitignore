@@ -72,3 +72,5 @@ tags
 *.bak
 *.log
 .logs
+
+application.yml
