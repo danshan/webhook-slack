@@ -4,8 +4,6 @@
 [![](https://images.microbadger.com/badges/version/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own version badge on microbadger.com")
 [![](https://images.microbadger.com/badges/image/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own image badge on microbadger.com")
 
-[![Build Status](https://travis-ci.org/danshan/webhook-slack.svg?branch=master)](https://travis-ci.org/danshan/webhook-slack)
-
 该项目的目的是解决一些支持 Webhook 缺无法集成到 Slack 的产品.
 
 通过 Slack 的 [Incoming Webhooks](https://api.slack.com/incoming-webhooks) 来实现将消息通过 slack 转发.
