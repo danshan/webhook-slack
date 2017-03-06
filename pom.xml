@@ -29,6 +29,7 @@
         <guava.version>18.0</guava.version>
 
         <jacoco.version>0.7.6.201602180812</jacoco.version>
+        <coveralls.version>4.3.0</coveralls.version>
     </properties>
 
     <dependencies>
@@ -66,6 +67,12 @@
     <build>
         <finalName>webhook-slack</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>${coveralls.version}</version>
+            </plugin>
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
