@@ -1,6 +1,9 @@
 # webhook-slack
 
-[![Build Status](https://travis-ci.org/danshan/hubot-docker.svg?branch=master)](https://travis-ci.org/danshan/hubot-docker)
+[![Build Status](https://img.shields.io/github/forks/danshan/webhook-slack.svg)](https://github.com/danshan/webhook-slack)
+[![Build Status](https://img.shields.io/github/stars/danshan/webhook-slack.svg)](https://github.com/danshan/webhook-slack)
+[![Build Status](https://img.shields.io/travis/danshan/webhook-slack/master.svg)](https://travis-ci.org/danshan/webhook-slack)
+[![Test Coverage](http://img.shields.io/coveralls/danshan/webhook-slack/master.svg)](https://coveralls.io/r/danshan/webhook-slack?branch=master)
 [![](https://images.microbadger.com/badges/version/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own version badge on microbadger.com")
 [![](https://images.microbadger.com/badges/image/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own image badge on microbadger.com")
 
