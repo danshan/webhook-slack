@@ -11,6 +11,8 @@ before_install:
 
 script:
   - mvn test -B
+after_success:
+  - mvn clean test jacoco:report coveralls:report
 
 notifications:
   slack: shanhonghao:pdqZbe3SSqGZahgfKsddxPE5
