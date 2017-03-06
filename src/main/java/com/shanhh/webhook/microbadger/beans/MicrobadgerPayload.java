@@ -67,6 +67,7 @@ public class MicrobadgerPayload implements Serializable {
     @NoArgsConstructor
     public static class Tag implements Serializable {
         private String tag;
+        @JsonProperty("SHA")
         private String SHA;
     }
 }

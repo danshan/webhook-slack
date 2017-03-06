@@ -61,6 +61,7 @@ public class MicrobadgerServiceImpl implements MicrobadgerService {
         SlackAttaPayload.Attachment attachment = SlackAttaPayload.Attachment.builder()
                 .title("Microbadger " + payload.getImageName() + " Updated")
                 .text(payload.getText())
+                .fallback(payload.getText())
                 .color(SlackAttaColor.good.name())
                 .fields(fields)
                 .build();
