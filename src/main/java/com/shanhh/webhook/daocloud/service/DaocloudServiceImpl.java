@@ -77,7 +77,7 @@ public class DaocloudServiceImpl implements DaocloudService {
                 .fallback(buildFallback(payload))
                 .color(selectColor(payload.getBuild().getStatus()))
                 .mrkdwnIn(Arrays.asList("text"))
-                .authorName(payload.getBuild().getAuthor())
+//                .authorName(payload.getBuild().getAuthor())
                 .fields(fields)
                 .build();
 
@@ -90,7 +90,7 @@ public class DaocloudServiceImpl implements DaocloudService {
             case "Success":
             case "Failure":
             case "Error":
-            case "Started":
+//            case "Started":
                 return false;
             default:
                 return true;
