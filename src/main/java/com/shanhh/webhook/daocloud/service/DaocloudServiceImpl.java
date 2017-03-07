@@ -49,7 +49,7 @@ public class DaocloudServiceImpl implements DaocloudService {
                 .build());
         if (StringUtils.isNotBlank(payload.getBuild().getTag())) {
             fields.add(SlackAttaPayload.Attachment.Field.builder()
-                    .isShort(false)
+                    .isShort(true)
                     .title("Tag")
                     .value(payload.getBuild().getTag())
                     .build());
@@ -57,7 +57,7 @@ public class DaocloudServiceImpl implements DaocloudService {
 
         if (StringUtils.isNotBlank(payload.getBuild().getBranch())) {
             fields.add(SlackAttaPayload.Attachment.Field.builder()
-                    .isShort(false)
+                    .isShort(true)
                     .title("Branch")
                     .value(payload.getBuild().getBranch())
                     .build());
@@ -73,6 +73,7 @@ public class DaocloudServiceImpl implements DaocloudService {
 
         SlackAttaPayload.Attachment attachment = SlackAttaPayload.Attachment.builder()
                 .title(payload.getImage())
+                .titleLink("https://dashboard.daocloud.io/build-flows/" + payload.getBuildFlowId())
                 .text(buildText(payload))
                 .fallback(buildFallback(payload))
                 .color(selectColor(payload.getBuild().getStatus()))
