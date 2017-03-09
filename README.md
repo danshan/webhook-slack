@@ -6,6 +6,8 @@
 [![Test Coverage](http://img.shields.io/coveralls/danshan/webhook-slack/master.svg)](https://coveralls.io/r/danshan/webhook-slack?branch=master)
 [![](https://images.microbadger.com/badges/version/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own version badge on microbadger.com")
 [![](https://images.microbadger.com/badges/image/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own image badge on microbadger.com")
+[![Code Climate](https://codeclimate.com/github/danshan/webhook-slack/badges/gpa.svg)](https://codeclimate.com/github/danshan/webhook-slack)
+[![Issue Count](https://codeclimate.com/github/danshan/webhook-slack/badges/issue_count.svg)](https://codeclimate.com/github/danshan/webhook-slack)
 
 该项目的目的是解决一些支持 Webhook 缺无法集成到 Slack 的产品.
 
