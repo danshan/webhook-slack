@@ -1,4 +1,4 @@
-package com.shanhh.webhook.metrics;
+package com.shanhh.webhook.core.metrics;
 
 /**
  * @author dan

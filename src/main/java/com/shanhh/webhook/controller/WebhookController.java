@@ -17,6 +17,8 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
+import io.prometheus.client.Counter;
+
 /**
  * @author dan
  * @since 2017-03-03 16:29
