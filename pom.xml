@@ -28,6 +28,9 @@
         <commons-lang3.version>3.5</commons-lang3.version>
         <guava.version>18.0</guava.version>
 
+        <!-- prometheus -->
+        <prometheus.version>0.0.21</prometheus.version>
+
         <!-- test -->
         <junit.version>4.12</junit.version>
         <mockito.version>1.10.19</mockito.version>
@@ -68,6 +71,24 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient</artifactId>
+            <version>${prometheus.version}</version>
+        </dependency>
+        <!-- Hotspot JVM metrics-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_hotspot</artifactId>
+            <version>${prometheus.version}</version>
+        </dependency>
+        <!-- Exposition servlet-->
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_servlet</artifactId>
+            <version>0.0.21</version>
         </dependency>
 
         <dependency>
