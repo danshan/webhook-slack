@@ -18,10 +18,5 @@ RUN mvn clean package
 
 ADD bin/entrypoint.sh ${DATA_DIR}/entrypoint.sh
 
-ARG VCS_REF
-
-LABEL org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/danshan/hubot-docker"
-
 EXPOSE 8080
 ENTRYPOINT ["/opt/data/entrypoint.sh"]
