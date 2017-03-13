@@ -79,7 +79,7 @@ public class DaocloudServiceImpl implements DaocloudService {
                 .color(selectColor(payload.getBuild().getStatus()))
                 .mrkdwnIn(Arrays.asList("text"))
 //                .authorName(payload.getBuild().getAuthor())
-                .fields(fields)
+//                .fields(fields)
                 .build();
 
         slack.setAttachments(Arrays.asList(attachment));
