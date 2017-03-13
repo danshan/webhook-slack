@@ -2,6 +2,8 @@ package com.shanhh.webhook.controller;
 
 import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
 import com.shanhh.webhook.daocloud.service.DaocloudService;
+import com.shanhh.webhook.docker.beans.DockerPayload;
+import com.shanhh.webhook.docker.service.DockerService;
 import com.shanhh.webhook.microbadger.beans.MicrobadgerPayload;
 import com.shanhh.webhook.microbadger.service.MicrobadgerService;
 import com.shanhh.webhook.slack.beans.Hook;
@@ -17,8 +19,6 @@ import java.io.IOException;
 
 import javax.annotation.Resource;
 
-import io.prometheus.client.Counter;
-
 /**
  * @author dan
  * @since 2017-03-03 16:29
@@ -32,6 +32,8 @@ public class WebhookController {
     @Resource
     private MicrobadgerService microbadgerService;
     @Resource
+    private DockerService dockerService;
+    @Resource
     private SlackService slackService;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
@@ -44,6 +46,12 @@ public class WebhookController {
     public String daocloud(@RequestBody MicrobadgerPayload payload) throws IOException {
         SlackPayload slackPayload = microbadgerService.exec(payload);
         return slackService.send(Hook.MICROBADGER, slackPayload);
+    }
+
+    @RequestMapping(value = "docker", method = RequestMethod.POST)
+    public String daocloud(@RequestBody DockerPayload payload) throws IOException {
+        SlackPayload slackPayload = dockerService.exec(payload);
+        return slackService.send(Hook.DOCKER, slackPayload);
     }
 
 }

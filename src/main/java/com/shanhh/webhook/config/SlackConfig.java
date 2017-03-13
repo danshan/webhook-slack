@@ -18,4 +18,7 @@ public class SlackConfig {
 
     @Value("${slack.microbadger}")
     private String slackForMicrobadger;
+
+    @Value("${slack.docker}")
+    private String slackForDocker;
 }
