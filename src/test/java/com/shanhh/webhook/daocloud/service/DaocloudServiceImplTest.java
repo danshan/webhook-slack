@@ -9,6 +9,8 @@ import com.shanhh.webhook.slack.beans.SlackPayload;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -22,26 +24,7 @@ public class DaocloudServiceImplTest {
     @Test
     public void exec() throws Exception {
         ObjectMapper objectMapper = new ObjectMapper();
-        String json = "{\n" +
-                "        \"repo\":\"daocloud/api\",\n" +
-                "        \"image\":\"daocloud.io/daocloud/api:master-init\",\n" +
-                "        \"build_flow_id\":\"8d7622ea-9323-4489-8c8e-fc4bed448961\",\n" +
-                "        \"name\":\"api\",\n" +
-                "        \"build\":\n" +
-                "        {\n" +
-                "            \"status\":\"Success\",\n" +
-                "            \"duration_seconds\":180,\n" +
-                "            \"author\":\"DaoCloud\",\n" +
-                "            \"triggered_by\":\"tag\",\n" +
-                "            \"sha\":\"a7c35d9dc7e93788ce81befbadeb0108de495e5e\",\n" +
-                "            \"tag\":\"master-init\",\n" +
-                "            \"branch\":null,\n" +
-                "            \"pull_request\":\"\",\n" +
-                "            \"message\":\"init build \",\n" +
-                "            \"started_at\":\"2015-01-01T08:20:00+00:00\",\n" +
-                "            \"build_type\":\"image_build\"}\n" +
-                "        }\n" +
-                "    }";
+        String json = String.format(this.payload(), "Success");
         DaocloudPayload payload = objectMapper.readValue(json.getBytes(Charsets.UTF_8), DaocloudPayload.class);
         SlackPayload exec = daocloudService.exec(payload);
         assertTrue(exec instanceof SlackAttaPayload);
@@ -51,5 +34,36 @@ public class DaocloudServiceImplTest {
         assertTrue(StringUtils.isNotBlank(slack.getAttachments().get(0).getFallback()));
 
     }
+
+    public void testSkip() throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        assertNull(daocloudService.exec(objectMapper.readValue(String.format(this.payload(), "Queue").getBytes(Charsets.UTF_8), DaocloudPayload.class)));
+        assertNull(daocloudService.exec(objectMapper.readValue(String.format(this.payload(), "Started").getBytes(Charsets.UTF_8), DaocloudPayload.class)));
+        assertNotNull(daocloudService.exec(objectMapper.readValue(String.format(this.payload(), "Error").getBytes(Charsets.UTF_8), DaocloudPayload.class)));
+    }
+
+    private String payload() {
+        return "{\n" +
+                "        \"repo\":\"daocloud/api\",\n" +
+                "        \"image\":\"daocloud.io/daocloud/api:master-init\",\n" +
+                "        \"build_flow_id\":\"8d7622ea-9323-4489-8c8e-fc4bed448961\",\n" +
+                "        \"name\":\"api\",\n" +
+                "        \"build\":\n" +
+                "        {\n" +
+                "            \"status\":\"%s\",\n" +
+                "            \"duration_seconds\":180,\n" +
+                "            \"author\":\"DaoCloud\",\n" +
+                "            \"triggered_by\":\"tag\",\n" +
+                "            \"sha\":\"a7c35d9dc7e93788ce81befbadeb0108de495e5e\",\n" +
+                "            \"tag\":\"master-init\",\n" +
+                "            \"branch\": \"branch\",\n" +
+                "            \"pull_request\":\"pull_request\",\n" +
+                "            \"message\":\"init build \",\n" +
+                "            \"started_at\":\"2015-01-01T08:20:00+00:00\",\n" +
+                "            \"build_type\":\"image_build\"}\n" +
+                "        }\n" +
+                "    }";
+    }
+
 
 }
