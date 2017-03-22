@@ -1,5 +1,6 @@
 package com.shanhh.webhook.microbadger.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MicrobadgerPayload implements Serializable {
     /*
     @formatter:on

@@ -1,5 +1,6 @@
 package com.shanhh.webhook.daocloud.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
@@ -28,6 +29,7 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DaocloudPayload implements Serializable {
     /*
     @formatter:on

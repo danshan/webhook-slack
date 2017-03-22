@@ -23,6 +23,14 @@
 
 ![MicroBadger](docs/microbadger.png)
 
+* [Docker](https://docker.io)
+
+![Docker](docs/docker.png)
+
+* [SonarQube](https://www.sonarqube.org/)
+
+![SonarQube](docs/sonar.png)
+
 ## Create Webhook
 
 在 [Slack Apps](https://api.slack.com/apps) 中创建一个 App, 以 DaoCloud 为例:
