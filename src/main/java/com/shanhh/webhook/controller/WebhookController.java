@@ -9,6 +9,8 @@ import com.shanhh.webhook.microbadger.service.MicrobadgerService;
 import com.shanhh.webhook.slack.beans.Hook;
 import com.shanhh.webhook.slack.beans.SlackPayload;
 import com.shanhh.webhook.slack.service.SlackService;
+import com.shanhh.webhook.sonarqube.beans.SonarPayload;
+import com.shanhh.webhook.sonarqube.service.SonarService;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +30,16 @@ import javax.annotation.Resource;
 public class WebhookController {
 
     @Resource
+    private SlackService slackService;
+
+    @Resource
     private DaocloudService daocloudService;
     @Resource
     private MicrobadgerService microbadgerService;
     @Resource
     private DockerService dockerService;
     @Resource
-    private SlackService slackService;
+    private SonarService sonarService;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
     public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
@@ -54,4 +59,9 @@ public class WebhookController {
         return slackService.send(Hook.DOCKER, slackPayload);
     }
 
+    @RequestMapping(value = "sonar", method = RequestMethod.POST)
+    public String sonar(@RequestBody SonarPayload payload) throws IOException {
+        SlackPayload slackPayload = sonarService.exec(payload);
+        return slackService.send(Hook.SONAR, slackPayload);
+    }
 }

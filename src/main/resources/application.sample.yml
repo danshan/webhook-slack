@@ -2,3 +2,4 @@ slack:
   daocloud:
   microbadger:
   docker:
+  sonar:

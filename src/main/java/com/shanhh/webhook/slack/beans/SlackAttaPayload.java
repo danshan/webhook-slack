@@ -46,7 +46,10 @@ public class SlackAttaPayload implements SlackPayload {
     @formatter:off
      */
 
+    private String text;
     private List<Attachment> attachments;
+    @JsonProperty("mrkdwn_in")
+    private List<String> mrkdwnIn;
 
     @Data
     @Builder
