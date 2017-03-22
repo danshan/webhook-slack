@@ -1,5 +1,10 @@
 #!/bin/bash
 
+mvn sonar:sonar \
+    -Dsonar.host.url=https://sonarqube.com \
+    -Dsonar.organization=$SONAR_ORG\
+    -Dsonar.login=$SONAR_TOKEN
+
 java -jar \
   -Dslack.daocloud="$SLACK_DAOCLOUD" \
   -Dslack.microbadger="$SLACK_MICROBADGER" \
