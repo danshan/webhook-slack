@@ -16,6 +16,8 @@ USER ${APP_USER}
 WORKDIR ${DATA_DIR}/${APP_NAME}
 RUN mvn clean package
 
+RUN mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=$SONAR_ORG -Dsonar.login=$SONAR_TOKEN
+
 ADD bin/entrypoint.sh ${DATA_DIR}/entrypoint.sh
 
 EXPOSE 8080
