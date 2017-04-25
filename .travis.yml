@@ -10,9 +10,8 @@ before_install:
   - docker build -t danshan/webhook-slack .
 
 script:
-  - mvn test -B
-after_success:
   - mvn clean test #jacoco:report coveralls:report
+after_success:
   - mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=$SONAR_ORG -Dsonar.login=$SONAR_TOKEN
 
 notifications:
