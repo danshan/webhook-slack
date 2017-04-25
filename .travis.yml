@@ -12,7 +12,7 @@ before_install:
 script:
   - mvn test -B
 after_success:
-  - mvn clean test jacoco:report coveralls:report
+  - mvn clean test #jacoco:report coveralls:report
   - mvn sonar:sonar -Dsonar.host.url=https://sonarqube.com -Dsonar.organization=$SONAR_ORG -Dsonar.login=$SONAR_TOKEN
 
 notifications:
