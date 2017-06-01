@@ -33,12 +33,16 @@ public class SonarServiceImpl implements SonarService {
         List<SlackAttaPayload.Attachment> attachments = Lists.newLinkedList();
         if (payload.getQualityGate() != null && !CollectionUtils.isEmpty(payload.getQualityGate().getConditions())) {
             payload.getQualityGate().getConditions().stream()
-//                    .filter(condition -> !"OK".equals(condition.getStatus()))
+                    .filter(condition -> !"OK".equals(condition.getStatus()))
                     .forEach(condition -> {
                         SlackAttaPayload.Attachment attachment = SlackAttaPayload.Attachment.builder()
                                 .color(SlackAttaColor.danger.name())
                                 .title(condition.getMetric())
-                                .text(String.format("*%s*: `%s` %s `%s`", condition.getStatus(), condition.getValue(), condition.getOperator(), condition.getErrorThreshold()))
+                                .text(String.format("%s %s %s `%s`",
+                                        condition.getMetric(),
+                                        condition.getOperator(),
+                                        condition.getErrorThreshold(),
+                                        "NO_VALUE".equals(condition.getStatus()) ? "NA" : condition.getValue()))
                                 .mrkdwnIn(Arrays.asList("text"))
                                 .build();
                         attachments.add(attachment);

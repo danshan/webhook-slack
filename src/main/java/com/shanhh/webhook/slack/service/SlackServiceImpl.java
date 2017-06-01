@@ -1,6 +1,8 @@
 package com.shanhh.webhook.slack.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Charsets;
+import com.google.common.net.MediaType;
 import com.shanhh.webhook.config.SlackConfig;
 import com.shanhh.webhook.slack.beans.Hook;
 import com.shanhh.webhook.slack.beans.SlackPayload;
@@ -40,12 +42,12 @@ public class SlackServiceImpl implements SlackService {
             return "skip";
         }
         HttpPost request = new HttpPost(getHookUrl(hook));
-        request.addHeader("Content-Type", "application/json");
+        request.addHeader("Content-Type", MediaType.JSON_UTF_8.toString());
 
         try {
-            request.setEntity(new StringEntity(objectMapper.writeValueAsString(payload)));
+            request.setEntity(new StringEntity(objectMapper.writeValueAsString(payload), Charsets.UTF_8));
             HttpResponse response = httpClient.execute(request);
-            String result = EntityUtils.toString(response.getEntity(), Charset.defaultCharset());
+            String result = EntityUtils.toString(response.getEntity(), Charsets.UTF_8);
             return result;
         } catch (IOException e) {
             log.error(e.getMessage(), e);
