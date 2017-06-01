@@ -23,5 +23,8 @@ public class SlackConfig {
     private String slackForDocker;
 
     @Value("${slack.sonar}")
-    private String sonarForDocker;
+    private String slackForSonar;
+
+    @Value("${slack.coding}")
+    private String slackForCoding;
 }

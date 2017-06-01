@@ -64,7 +64,9 @@ public class SlackServiceImpl implements SlackService {
             case DOCKER:
                 return slackConfig.getSlackForDocker();
             case SONAR:
-                return slackConfig.getSonarForDocker();
+                return slackConfig.getSlackForSonar();
+            case CODING:
+                return slackConfig.getSlackForCoding();
             default:
                 throw new IllegalArgumentException("unsupported webhook");
         }

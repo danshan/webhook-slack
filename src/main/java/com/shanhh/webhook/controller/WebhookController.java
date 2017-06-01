@@ -1,7 +1,7 @@
 package com.shanhh.webhook.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shanhh.webhook.coding.beans.CodingEvent;
-import com.shanhh.webhook.coding.beans.CodingPayload;
 import com.shanhh.webhook.coding.beans.CodingPushPayload;
 import com.shanhh.webhook.coding.service.CodingService;
 import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
@@ -47,6 +47,8 @@ public class WebhookController {
     private SonarService sonarService;
     @Resource
     private CodingService codingService;
+    @Resource
+    private ObjectMapper objectMapper;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
     public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
@@ -73,11 +75,12 @@ public class WebhookController {
     }
 
     @RequestMapping(value = "coding", method = RequestMethod.POST)
-    public String coding(@RequestBody CodingPayload payload, @RequestHeader("X-Coding-Event") String event) throws IOException {
+    public String coding(@RequestBody String content, @RequestHeader("X-Coding-Event") String event) throws IOException {
         CodingEvent codingEvent = CodingEvent.valueOf(event);
         switch (codingEvent) {
             case push:
-                SlackPayload slackPayload = codingService.exec((CodingPushPayload) payload);
+                CodingPushPayload payload = objectMapper.readValue(content, CodingPushPayload.class);
+                SlackPayload slackPayload = codingService.exec(payload);
                 return slackService.send(Hook.CODING, slackPayload);
         }
         return null;
