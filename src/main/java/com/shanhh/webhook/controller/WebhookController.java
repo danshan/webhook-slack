@@ -1,6 +1,8 @@
 package com.shanhh.webhook.controller;
 
+import com.shanhh.webhook.coding.beans.CodingEvent;
 import com.shanhh.webhook.coding.beans.CodingPayload;
+import com.shanhh.webhook.coding.beans.CodingPushPayload;
 import com.shanhh.webhook.coding.service.CodingService;
 import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
 import com.shanhh.webhook.daocloud.service.DaocloudService;
@@ -72,7 +74,12 @@ public class WebhookController {
 
     @RequestMapping(value = "coding", method = RequestMethod.POST)
     public String coding(@RequestBody CodingPayload payload, @RequestHeader("X-Coding-Event") String event) throws IOException {
-        SlackPayload slackPayload = codingService.exec(payload);
-        return slackService.send(Hook.CODING, slackPayload);
+        CodingEvent codingEvent = CodingEvent.valueOf(event);
+        switch (codingEvent) {
+            case push:
+                SlackPayload slackPayload = codingService.exec((CodingPushPayload) payload);
+                return slackService.send(Hook.CODING, slackPayload);
+        }
+        return null;
     }
 }
