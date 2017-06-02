@@ -1,5 +1,9 @@
 package com.shanhh.webhook.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shanhh.webhook.coding.beans.CodingEvent;
+import com.shanhh.webhook.coding.beans.CodingPushPayload;
+import com.shanhh.webhook.coding.service.CodingService;
 import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
 import com.shanhh.webhook.daocloud.service.DaocloudService;
 import com.shanhh.webhook.docker.beans.DockerPayload;
@@ -13,6 +17,7 @@ import com.shanhh.webhook.sonarqube.beans.SonarPayload;
 import com.shanhh.webhook.sonarqube.service.SonarService;
 
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +45,10 @@ public class WebhookController {
     private DockerService dockerService;
     @Resource
     private SonarService sonarService;
+    @Resource
+    private CodingService codingService;
+    @Resource
+    private ObjectMapper objectMapper;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
     public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
@@ -63,5 +72,17 @@ public class WebhookController {
     public String sonar(@RequestBody SonarPayload payload) throws IOException {
         SlackPayload slackPayload = sonarService.exec(payload);
         return slackService.send(Hook.SONAR, slackPayload);
+    }
+
+    @RequestMapping(value = "coding", method = RequestMethod.POST)
+    public String coding(@RequestBody String content, @RequestHeader("X-Coding-Event") String event) throws IOException {
+        CodingEvent codingEvent = CodingEvent.valueOf(event);
+        switch (codingEvent) {
+            case push:
+                CodingPushPayload payload = objectMapper.readValue(content, CodingPushPayload.class);
+                SlackPayload slackPayload = codingService.exec(payload);
+                return slackService.send(Hook.CODING, slackPayload);
+        }
+        return null;
     }
 }
