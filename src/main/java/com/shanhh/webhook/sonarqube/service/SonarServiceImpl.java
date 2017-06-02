@@ -32,24 +32,20 @@ public class SonarServiceImpl implements SonarService {
 
         List<SlackAttaPayload.Attachment> attachments = Lists.newLinkedList();
         if (payload.getQualityGate() != null && !CollectionUtils.isEmpty(payload.getQualityGate().getConditions())) {
+            StringBuilder text = new StringBuilder();
+            SlackAttaPayload.Attachment.AttachmentBuilder builder = SlackAttaPayload.Attachment.builder()
+                    .color(SlackAttaColor.danger.name())
+                    .mrkdwnIn(Arrays.asList("text"));
             payload.getQualityGate().getConditions().stream()
                     .filter(condition -> !"OK".equals(condition.getStatus()))
                     .forEach(condition -> {
-                        SlackAttaPayload.Attachment attachment = SlackAttaPayload.Attachment.builder()
-                                .color(SlackAttaColor.danger.name())
-                                .title(condition.getMetric())
-                                .text(String.format("%s %s %s `%s`",
-                                        condition.getMetric(),
-                                        condition.getOperator(),
-                                        condition.getErrorThreshold(),
-                                        "NO_VALUE".equals(condition.getStatus()) ? "NA" : condition.getValue()))
-                                .mrkdwnIn(Arrays.asList("text"))
-                                .build();
-                        attachments.add(attachment);
+                        text.append(condition.getMetric()).append(" ").append(condition.getStatus())
+                                .append(": ").append(condition.getOperator())
+                                .append(" ").append(condition.getErrorThreshold())
+                                .append(" `").append("NO_VALUE".equals(condition.getStatus()) ? "NA" : condition.getValue()).append("`");
                     });
-        }
-        while (attachments.size() > 30) {
-            attachments.remove(attachments.size() - 1);
+            builder.text(text.toString());
+            attachments.add(builder.build());
         }
 
         slack.setText(String.format("%s: `%s`", payload.getProject().getName(), payload.getStatus()));

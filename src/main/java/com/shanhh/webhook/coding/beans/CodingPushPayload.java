@@ -46,7 +46,7 @@ public class CodingPushPayload implements CodingPayload {
                 "committer":      // 代码提交人信息
                 {
                     "email": "xxxxx@gmail.com" ,
-                    "name": "kelvin"
+                    "name": "kelvin
                 }
             }
             {
