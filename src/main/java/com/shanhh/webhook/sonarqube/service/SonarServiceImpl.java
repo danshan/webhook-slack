@@ -39,10 +39,11 @@ public class SonarServiceImpl implements SonarService {
             payload.getQualityGate().getConditions().stream()
                     .filter(condition -> !"OK".equals(condition.getStatus()))
                     .forEach(condition -> {
-                        text.append(condition.getMetric()).append(" ").append(condition.getStatus())
+                        text.append("* ").append(condition.getMetric()).append(" ").append(condition.getStatus())
                                 .append(": ").append(condition.getOperator())
                                 .append(" ").append(condition.getErrorThreshold())
-                                .append(" `").append("NO_VALUE".equals(condition.getStatus()) ? "NA" : condition.getValue()).append("`");
+                                .append(" `").append("NO_VALUE".equals(condition.getStatus()) ? "NA" : condition.getValue()).append("`")
+                                .append("\n");
                     });
             builder.text(text.toString());
             attachments.add(builder.build());
