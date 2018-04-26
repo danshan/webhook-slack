@@ -9,7 +9,7 @@ ENV SLACK_SONARQUBE slack_sonarqube
 ENV SLACK_CODING slack_coding
 
 ENV PROJ_DIR /tmp/project
-ENV JAR_PATH ${PROJ_DIR}/webhook-slack-web/target/application.jar
+ENV JAR_PATH ${PROJ_DIR}/target/application.jar
 ENV DIST_DIR /var/lib/app
 RUN mkdir -p ${DIST_DIR}
 

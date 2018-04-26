@@ -10,8 +10,8 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
  */
 @SpringBootApplication
 @EnableFeignClients
-public class Webhook {
+public class Application {
     public static void main(String[] args) {
-        SpringApplication.run(Webhook.class, args);
+        SpringApplication.run(Application.class, args);
     }
 }
