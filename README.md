@@ -69,7 +69,7 @@ mvn clean package
 ### Run as java application
 
 ```shell
-java -jar -Dslack.daocloud=<daocloud_webhook_url> target/webhook-slack.jar
+java -jar -Dslack.daocloud=<slack_incoming_url> -Dslack.microbadger=<slack_incoming_url> -Dslack.docker=<slack_incoming_url> -Dslack.sonarqube=<slack_incoming_url> -Dslack.coding=<slack_incoming_url> target/application.jar
 ```
 
 ### Run in [docker](https://www.docker.com/)
@@ -78,15 +78,17 @@ docker-compose.yaml
 
 ```yaml
 webhook-slack:
-  image: daocloud.io/danshan/webhook-slack:master-00c578a
-  command: ls /opt/data && /bin/bash /opt/data/entrypoint.sh
+  image: daocloud.io/danshan/webhook-slack:1.0.0-1b4b18c
   privileged: false
   restart: always
   ports:
   - 8080:8080
   environment:
-  - SLACK_DAOCLOUD=<daocloud_webhook_url>
-  - SLACK_MICROBADGER=<_webhook_url>
+  - SLACK_MICROBADGER=https://hooks.slack.com/services/.....
+  - SLACK_DAOCLOUD=https://hooks.slack.com/services/.....
+  - SLACK_SONARQUBE=https://hooks.slack.com/services/.....
+  - SLACK_CODING=https://hooks.slack.com/services/.....
+  - SLACK_DOCKER=https://hooks.slack.com/services/.....
 ```
 
 ### Test
