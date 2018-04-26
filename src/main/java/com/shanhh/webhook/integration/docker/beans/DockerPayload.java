@@ -1,109 +1,105 @@
 package com.shanhh.webhook.integration.docker.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.Data;
+import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
-
-import jdk.net.SocketFlow;
 
 /**
  * @author dan
  * @since 2017-03-13 15:44
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class DockerPayload implements Serializable {
-    /*
-    @formatter:on
-    {
-        "callback_url": "https://registry.hub.docker.com/u/svendowideit/testhook/hook/2141b5bi5i5b02bec211i4eeih0242eg11000a/",
-        "push_data": {
-            "images": [
-                "27d47432a69bca5f2700e4dff7de0388ed65f9d3fb1ec645e2bc24c223dc1cc3",
-                "51a9c7c1f8bb2fa19bcd09789a34e63f35abb80044bc10196e304f6634cc582c",
-                "..."
-            ],
-            "pushed_at": 1.417566161e+09,
-            "pusher": "trustedbuilder"
-        },
-        "repository": {
-            "comment_count": "0",
-            "date_created": 1.417494799e+09,
-            "description": "",
-            "dockerfile": "#\n# BUILD\u0009\u0009docker build -t svendowideit/apt-cacher .\n# RUN\u0009\u0009docker run -d -p 3142:3142 -name apt-cacher-run apt-cacher\n#\n# and then you can run containers with:\n# \u0009\u0009docker run -t -i -rm -e http_proxy http://192.168.1.2:3142/ debian bash\n#\nFROM\u0009\u0009ubuntu\n\n\nVOLUME\u0009\u0009[\/var/cache/apt-cacher-ng\]\nRUN\u0009\u0009apt-get update ; apt-get install -yq apt-cacher-ng\n\nEXPOSE \u0009\u00093142\nCMD\u0009\u0009chmod 777 /var/cache/apt-cacher-ng ; /etc/init.d/apt-cacher-ng start ; tail -f /var/log/apt-cacher-ng/*\n",
-            "full_description": "Docker Hub based automated build from a GitHub repo",
-            "is_official": false,
-            "is_private": true,
-            "is_trusted": true,
-            "name": "testhook",
-            "namespace": "svendowideit",
-            "owner": "svendowideit",
-            "repo_name": "svendowideit/testhook",
-            "repo_url": "https://registry.hub.docker.com/u/svendowideit/testhook/",
-            "star_count": 0,
-            "status": "Active"
-        }
-    }
-    @formatter:off
-    */
+    /**
+     * callback_url : https://registry.hub.docker.com/u/svendowideit/testhook/hook/2141b5bi5i5b02bec211i4eeih0242eg11000a/
+     * push_data : {"images":["27d47432a69bca5f2700e4dff7de0388ed65f9d3fb1ec645e2bc24c223dc1cc3","51a9c7c1f8bb2fa19bcd09789a34e63f35abb80044bc10196e304f6634cc582c","..."],"pushed_at":1.417566161E9,"pusher":"trustedbuilder"}
+     * repository : {"comment_count":"0","date_created":1.417494799E9,"description":"","dockerfile":"dockerfile content","is_official":false,"is_private":true,"is_trusted":true,"name":"testhook","namespace":"svendowideit","owner":"svendowideit","repo_name":"svendowideit/testhook","repo_url":"https://registry.hub.docker.com/u/svendowideit/testhook/","star_count":0,"status":"Active"}
+     */
 
-    @JsonProperty("callback_url")
+    @SerializedName("callback_url")
     private String callbackUrl;
+    @SerializedName("push_data")
+    private PushDataBean pushData;
+    @SerializedName("repository")
+    private RepositoryBean repository;
 
-    @JsonProperty("push_data")
-    private PushData pushData;
-
-    private Repository repository;
-
-    @Data
+    @Getter
+    @Setter
     @NoArgsConstructor
-    public static class PushData implements Serializable {
+    public static class PushDataBean implements Serializable {
+        /**
+         * images : ["27d47432a69bca5f2700e4dff7de0388ed65f9d3fb1ec645e2bc24c223dc1cc3","51a9c7c1f8bb2fa19bcd09789a34e63f35abb80044bc10196e304f6634cc582c","..."]
+         * pushed_at : 1.417566161E9
+         * pusher : trustedbuilder
+         */
 
+        @SerializedName("pushed_at")
+        private double pushedAt;
+        @SerializedName("pusher")
+        private String pusher;
+        @SerializedName("images")
         private List<String> images;
 
-        @JsonProperty("pushed_at")
-        private long pushedAt;
-
-        public String pusher;
     }
 
-    @Data
+    @Getter
+    @Setter
     @NoArgsConstructor
-    public static class Repository implements Serializable {
-        @JsonProperty("comment_count")
+    public static class RepositoryBean implements Serializable {
+        /**
+         * comment_count : 0
+         * date_created : 1.417494799E9
+         * description :
+         * dockerfile : dockerfile content
+         * is_official : false
+         * is_private : true
+         * is_trusted : true
+         * name : testhook
+         * namespace : svendowideit
+         * owner : svendowideit
+         * repo_name : svendowideit/testhook
+         * repo_url : https://registry.hub.docker.com/u/svendowideit/testhook/
+         * star_count : 0
+         * status : Active
+         */
+
+        @SerializedName("comment_count")
         private String commentCount;
-
-        @JsonProperty("date_created")
-        private long dateCreated;
-
+        @SerializedName("date_created")
+        private double dateCreated;
+        @SerializedName("description")
         private String description;
+        @SerializedName("dockerfile")
         private String dockerfile;
-
-        @JsonProperty("full_description")
-        private String fullDescription;
-        @JsonProperty("is_official")
+        @SerializedName("is_official")
         private boolean isOfficial;
-        @JsonProperty("is_private")
+        @SerializedName("is_private")
         private boolean isPrivate;
-        @JsonProperty("is_trusted")
+        @SerializedName("is_trusted")
         private boolean isTrusted;
+        @SerializedName("name")
         private String name;
+        @SerializedName("namespace")
         private String namespace;
+        @SerializedName("owner")
         private String owner;
-        @JsonProperty("repo_name")
+        @SerializedName("repo_name")
         private String repoName;
-        @JsonProperty("repo_url")
+        @SerializedName("repo_url")
         private String repoUrl;
-        @JsonProperty("star_count")
+        @SerializedName("star_count")
         private int starCount;
+        @SerializedName("status")
         private String status;
 
     }
 
+
 }
+

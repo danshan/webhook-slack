@@ -39,7 +39,7 @@ public class MicrobadgerPayload implements Serializable {
     @Getter
     @Setter
     @NoArgsConstructor
-    public static class TagBean {
+    public static class TagBean implements Serializable {
         /**
          * SHA : 8d60f60f52af0ef5450ec83bfc6fdbce4c05e3ea636d5c083db9f8e98c715805
          * tag : latest

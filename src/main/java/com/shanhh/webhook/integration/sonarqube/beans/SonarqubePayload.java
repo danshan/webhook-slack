@@ -41,7 +41,7 @@ public class SonarqubePayload implements Serializable {
     @Setter
     @Getter
     @NoArgsConstructor
-    public static class ProjectBean {
+    public static class ProjectBean implements Serializable {
         /**
          * key : org.sonarqube:example
          * name : Example
@@ -57,13 +57,13 @@ public class SonarqubePayload implements Serializable {
     @Setter
     @Getter
     @NoArgsConstructor
-    public static class PropertiesBean {
+    public static class PropertiesBean implements Serializable {
     }
 
     @Setter
     @Getter
     @NoArgsConstructor
-    public static class QualityGateBean {
+    public static class QualityGateBean implements Serializable {
         /**
          * conditions : [{"errorThreshold":"1","metric":"new_security_rating","onLeakPeriod":true,"operator":"GREATER_THAN","status":"OK","value":"1"},{"errorThreshold":"1","metric":"new_reliability_rating","onLeakPeriod":true,"operator":"GREATER_THAN","status":"OK","value":"1"},{"errorThreshold":"1","metric":"new_maintainability_rating","onLeakPeriod":true,"operator":"GREATER_THAN","status":"OK","value":"1"},{"errorThreshold":"80","metric":"new_coverage","onLeakPeriod":true,"operator":"LESS_THAN","status":"NO_VALUE"}]
          * name : SonarQube way
