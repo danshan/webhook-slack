@@ -26,19 +26,19 @@ public class WebhookController {
 
     @RequestMapping(value = "microbadger", method = RequestMethod.POST)
     public void parseMicrobadger(@RequestBody String content) {
-        log.info("daocloud request: {}", content);
+        log.info("microbadger request: {}", content);
         webhookService.parseMicrobadger(content);
     }
 
     @RequestMapping(value = "docker", method = RequestMethod.POST)
     public void parseDocker(@RequestBody String content) {
-        log.info("daocloud request: {}", content);
+        log.info("docker request: {}", content);
         webhookService.parseDocker(content);
     }
 
     @RequestMapping(value = "sonarqube", method = RequestMethod.POST)
     public void parseSonarqube(@RequestBody String content) {
-        log.info("daocloud request: {}", content);
+        log.info("sonarqube request: {}", content);
         webhookService.parseSonarqube(content);
     }
 
@@ -47,7 +47,7 @@ public class WebhookController {
             @RequestHeader("X-Coding-Event") String event,
             @RequestBody String content
     ) {
-        log.info("daocloud request: {}", content);
+        log.info("coding request {}: {}", event, content);
         webhookService.parseCoding(event, content);
     }
 

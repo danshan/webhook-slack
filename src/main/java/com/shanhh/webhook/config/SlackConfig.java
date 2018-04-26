@@ -58,7 +58,7 @@ public class SlackConfig {
     }
 
     @Bean("codingClient")
-    @ConditionalOnProperty("slack.codingClient")
+    @ConditionalOnProperty("slack.coding")
     public SlackClient coingClient() {
         return Feign.builder().target(SlackClient.class, this.coding);
     }
