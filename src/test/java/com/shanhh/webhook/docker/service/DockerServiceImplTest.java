@@ -2,9 +2,11 @@ package com.shanhh.webhook.docker.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
-import com.shanhh.webhook.docker.beans.DockerPayload;
-import com.shanhh.webhook.slack.beans.SlackAttaPayload;
-import com.shanhh.webhook.slack.beans.SlackPayload;
+import com.shanhh.webhook.integration.docker.beans.DockerPayload;
+import com.shanhh.webhook.integration.docker.service.DockerService;
+import com.shanhh.webhook.integration.docker.service.DockerServiceImpl;
+import com.shanhh.webhook.repo.entity.SlackAttaPayload;
+import com.shanhh.webhook.repo.entity.SlackPayload;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;

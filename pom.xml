@@ -3,32 +3,30 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.shanhh.webhook</groupId>
-    <artifactId>webhook-slack</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
-
-    <name>webhook-slack</name>
-    <description>webhook to notify slack</description>
-
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.4.3.RELEASE</version>
-        <relativePath/>
+        <version>1.5.9.RELEASE</version>
     </parent>
+
+    <groupId>com.shanhh.webhook</groupId>
+    <artifactId>webhook-slack</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <name>webhook-slack</name>
+    <description>webhook to notify slack</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <httpclient.version>4.5.2</httpclient.version>
-        <lombok.version>1.16.8</lombok.version>
-        <commons-lang3.version>3.5</commons-lang3.version>
-        <guava.version>18.0</guava.version>
+        <spring-cloud.version>Camden.SR7</spring-cloud.version>
 
-        <!-- prometheus -->
+        <feign.version>9.4.0</feign.version>
+        <lombok.version>1.16.18</lombok.version>
+        <commons-lang3.version>3.6</commons-lang3.version>
+
         <prometheus.version>0.0.21</prometheus.version>
 
         <!-- test -->
@@ -38,25 +36,47 @@
         <!-- maven plugins -->
         <jacoco-maven-plugin.version>0.7.6.201602180812</jacoco-maven-plugin.version>
         <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
-        <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
-        <maven-source-plugin.version>2.1</maven-source-plugin.version>
+
+        <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+        <docker-maven-plugin.version>0.4.14</docker-maven-plugin.version>
+        <spring-boot-maven-plugin.version>1.4.5.RELEASE</spring-boot-maven-plugin.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-feign</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${httpclient.version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -68,27 +88,9 @@
             <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.prometheus</groupId>
-            <artifactId>simpleclient</artifactId>
-            <version>${prometheus.version}</version>
-        </dependency>
-        <!-- Hotspot JVM metrics-->
-        <dependency>
-            <groupId>io.prometheus</groupId>
-            <artifactId>simpleclient_hotspot</artifactId>
-            <version>${prometheus.version}</version>
-        </dependency>
-        <!-- Exposition servlet-->
-        <dependency>
-            <groupId>io.prometheus</groupId>
-            <artifactId>simpleclient_servlet</artifactId>
-            <version>${prometheus.version}</version>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
         </dependency>
 
         <dependency>
@@ -106,31 +108,41 @@
     </dependencies>
 
     <build>
-        <finalName>webhook-slack</finalName>
+        <finalName>application</finalName>
         <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.eluder.coveralls</groupId>-->
-                <!--<artifactId>coveralls-maven-plugin</artifactId>-->
-                <!--<version>${coveralls-maven-plugin.version}</version>-->
-            <!--</plugin>-->
-
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.shanhh.webhook.Application</mainClass>
+                    <layout>ZIP</layout>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
-            <!--<plugin>-->
-                <!--<groupId>org.jacoco</groupId>-->
-                <!--<artifactId>jacoco-maven-plugin</artifactId>-->
-                <!--<version>${jacoco-maven-plugin.version}</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>prepare-agent</id>-->
-                        <!--<goals>-->
-                            <!--<goal>prepare-agent</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>${coveralls-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -145,24 +157,8 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>${maven-source-plugin.version}</version>
-                <configuration>
-                    <attach>true</attach>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
+
     </build>
 
 </project>

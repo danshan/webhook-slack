@@ -1,28 +1,9 @@
 package com.shanhh.webhook.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shanhh.webhook.coding.beans.CodingEvent;
-import com.shanhh.webhook.coding.beans.CodingPushPayload;
-import com.shanhh.webhook.coding.service.CodingService;
-import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
-import com.shanhh.webhook.daocloud.service.DaocloudService;
-import com.shanhh.webhook.docker.beans.DockerPayload;
-import com.shanhh.webhook.docker.service.DockerService;
-import com.shanhh.webhook.microbadger.beans.MicrobadgerPayload;
-import com.shanhh.webhook.microbadger.service.MicrobadgerService;
-import com.shanhh.webhook.slack.beans.Hook;
-import com.shanhh.webhook.slack.beans.SlackPayload;
-import com.shanhh.webhook.slack.service.SlackService;
-import com.shanhh.webhook.sonarqube.beans.SonarPayload;
-import com.shanhh.webhook.sonarqube.service.SonarService;
-
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
+import com.shanhh.webhook.integration.coding.beans.CodingEvent;
+import com.shanhh.webhook.service.WebhookService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -32,57 +13,47 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/webhook")
+@Slf4j
 public class WebhookController {
 
     @Resource
-    private SlackService slackService;
-
-    @Resource
-    private DaocloudService daocloudService;
-    @Resource
-    private MicrobadgerService microbadgerService;
-    @Resource
-    private DockerService dockerService;
-    @Resource
-    private SonarService sonarService;
-    @Resource
-    private CodingService codingService;
-    @Resource
-    private ObjectMapper objectMapper;
+    private WebhookService webhookService;
 
     @RequestMapping(value = "daocloud", method = RequestMethod.POST)
-    public String daocloud(@RequestBody DaocloudPayload payload) throws IOException {
-        SlackPayload slackPayload = daocloudService.exec(payload);
-        return slackService.send(Hook.DAOCLOUD, slackPayload);
+    public void parseDaocloud(@RequestBody String content) {
+        log.info("daocloud request: {}", content);
+        webhookService.parseDaocloud(content);
     }
 
     @RequestMapping(value = "microbadger", method = RequestMethod.POST)
-    public String daocloud(@RequestBody MicrobadgerPayload payload) throws IOException {
-        SlackPayload slackPayload = microbadgerService.exec(payload);
-        return slackService.send(Hook.MICROBADGER, slackPayload);
+    public void parseMicrobadger(@RequestBody String content) {
+        log.info("microbadger request: {}", content);
+        webhookService.parseMicrobadger(content);
     }
 
     @RequestMapping(value = "docker", method = RequestMethod.POST)
-    public String daocloud(@RequestBody DockerPayload payload) throws IOException {
-        SlackPayload slackPayload = dockerService.exec(payload);
-        return slackService.send(Hook.DOCKER, slackPayload);
+    public void parseDocker(@RequestBody String content) {
+        log.info("docker request: {}", content);
+        webhookService.parseDocker(content);
     }
 
-    @RequestMapping(value = "sonar", method = RequestMethod.POST)
-    public String sonar(@RequestBody SonarPayload payload) throws IOException {
-        SlackPayload slackPayload = sonarService.exec(payload);
-        return slackService.send(Hook.SONAR, slackPayload);
+    @RequestMapping(value = "sonarqube", method = RequestMethod.POST)
+    public void parseSonarqube(@RequestBody String content) {
+        log.info("sonarqube request: {}", content);
+        webhookService.parseSonarqube(content);
     }
 
     @RequestMapping(value = "coding", method = RequestMethod.POST)
-    public String coding(@RequestBody String content, @RequestHeader("X-Coding-Event") String event) throws IOException {
-        CodingEvent codingEvent = CodingEvent.valueOf(event);
-        switch (codingEvent) {
-            case push:
-                CodingPushPayload payload = objectMapper.readValue(content, CodingPushPayload.class);
-                SlackPayload slackPayload = codingService.exec(payload);
-                return slackService.send(Hook.CODING, slackPayload);
-        }
-        return null;
+    public void parseCoding(
+            @RequestHeader("X-Coding-Event") CodingEvent event,
+            @RequestBody String content
+    ) {
+        log.info("coding request {}: {}", event, content);
+        webhookService.parseCoding(event, content);
+    }
+
+    @RequestMapping(value = "debug", method = RequestMethod.POST)
+    public void debug(@RequestBody String content) {
+        log.info("debug request: {}", content);
     }
 }

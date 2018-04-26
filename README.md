@@ -62,7 +62,7 @@ mvn clean package
 ### Run as java application
 
 ```shell
-java -jar =Dslack.daocloud=<daocloud_webhook_url> target/webhook-slack.jar
+java -jar -Dslack.daocloud=<daocloud_webhook_url> target/webhook-slack.jar
 ```
 
 ### Run in [docker](https://www.docker.com/)
@@ -78,7 +78,8 @@ webhook-slack:
   ports:
   - 8080:8080
   environment:
-  - SLACK_DAOCLOUD=<docker_webhook_url>
+  - SLACK_DAOCLOUD=<daocloud_webhook_url>
+  - SLACK_MICROBADGER=<_webhook_url>
 ```
 
 ### Test
