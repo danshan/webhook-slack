@@ -1,12 +1,11 @@
 package com.shanhh.webhook.microbadger.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
+import com.google.gson.Gson;
+import com.shanhh.webhook.PayloadUtils;
 import com.shanhh.webhook.integration.microbadger.beans.MicrobadgerPayload;
 import com.shanhh.webhook.integration.microbadger.service.MicrobadgerServiceImpl;
 import com.shanhh.webhook.repo.entity.SlackAttaPayload;
 import com.shanhh.webhook.repo.entity.SlackPayload;
-
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
@@ -19,23 +18,12 @@ import static org.junit.Assert.assertTrue;
 public class MicrobadgerServiceImplTest {
 
     private MicrobadgerServiceImpl microbadgerService = new MicrobadgerServiceImpl();
+    private static final Gson gson = new Gson();
 
     @Test
     public void exec() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = "{\n" +
-                "  \"text\":\"MicroBadger: Docker Hub image org/name has changed\",\n" +
-                "  \"image_name\":\"org/name\",\n" +
-                "  \"new_tags\":[],\n" +
-                "  \"changed_tags\":[\n" +
-                "    {\n" +
-                "      \"tag\":\"latest\",\n" +
-                "      \"SHA\":\"123456789a....\"\n" +
-                "    }\n" +
-                "  ],\n" +
-                "  \"deleted_tags\":[]\n" +
-                "}";
-        MicrobadgerPayload payload = objectMapper.readValue(json.getBytes(Charsets.UTF_8), MicrobadgerPayload.class);
+        String json = PayloadUtils.readPayload("microbadger/image_changed.json");
+        MicrobadgerPayload payload = gson.fromJson(json, MicrobadgerPayload.class);
         SlackPayload exec = microbadgerService.exec(payload);
         assertTrue(exec instanceof SlackAttaPayload);
 

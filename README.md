@@ -1,15 +1,22 @@
 # webhook-slack
 
-[![Build Status](https://img.shields.io/github/forks/danshan/webhook-slack.svg)](https://github.com/danshan/webhook-slack)
-[![Build Status](https://img.shields.io/github/stars/danshan/webhook-slack.svg)](https://github.com/danshan/webhook-slack)
-[![Build Status](https://img.shields.io/travis/danshan/webhook-slack/master.svg)](https://travis-ci.org/danshan/webhook-slack)
+[![Github Forks](https://img.shields.io/github/forks/danshan/webhook-slack.svg)](https://github.com/danshan/webhook-slack)
+[![Github Stars](https://img.shields.io/github/stars/danshan/webhook-slack.svg)](https://github.com/danshan/webhook-slack)
+
+[![Docker Stars](https://img.shields.io/docker/stars/danshan/webhook-slack.svg)](https://hub.docker.com/r/danshan/webhook-slack/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/danshan/webhook-slack.svg)](https://hub.docker.com/r/danshan/webhook-slack/)
+[![Docker Automated build](https://img.shields.io/docker/automated/danshan/webhook-slack.svg)](https://hub.docker.com/r/danshan/webhook-slack/)
+[![Docker Build Status](https://img.shields.io/docker/build/danshan/webhook-slack.svg)](https://hub.docker.com/r/danshan/webhook-slack/)
+
+[![MicroBadger Size](https://img.shields.io/microbadger/image-size/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack)
+[![MicroBadger Layers](https://img.shields.io/microbadger/layers/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack)
+
+[![travis build status](https://img.shields.io/travis/danshan/webhook-slack/master.svg)](https://travis-ci.org/danshan/webhook-slack)
 [![Test Coverage](http://img.shields.io/coveralls/danshan/webhook-slack/master.svg)](https://coveralls.io/r/danshan/webhook-slack?branch=master)
-[![](https://images.microbadger.com/badges/version/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/danshan/webhook-slack.svg)](https://microbadger.com/images/danshan/webhook-slack "Get your own image badge on microbadger.com")
 [![Code Climate](https://codeclimate.com/github/danshan/webhook-slack/badges/gpa.svg)](https://codeclimate.com/github/danshan/webhook-slack)
 [![Issue Count](https://codeclimate.com/github/danshan/webhook-slack/badges/issue_count.svg)](https://codeclimate.com/github/danshan/webhook-slack)
-[![SonarQube](https://sonarqube.com/api/badges/gate?key=com.shanhh.webhook:webhook-slack)](https://sonarqube.com/dashboard?id=com.shanhh.webhook%3Awebhook-slack)
-[![SonarQube](https://sonarqube.com/api/badges/measure?key=com.shanhh.webhook:webhook-slack&metric=sqale_debt_ratio)](https://sonarqube.com/dashboard?id=com.shanhh.webhook%3Awebhook-slack)
+[![SonarQube gate](https://sonarqube.com/api/badges/gate?key=com.shanhh.webhook:webhook-slack)](https://sonarqube.com/dashboard?id=com.shanhh.webhook%3Awebhook-slack)
+[![SonarQube measure](https://sonarqube.com/api/badges/measure?key=com.shanhh.webhook:webhook-slack&metric=sqale_debt_ratio)](https://sonarqube.com/dashboard?id=com.shanhh.webhook%3Awebhook-slack)
 
 该项目的目的是解决一些支持 Webhook 缺无法集成到 Slack 的产品.
 
