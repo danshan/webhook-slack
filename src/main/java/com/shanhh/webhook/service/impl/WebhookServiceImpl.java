@@ -1,6 +1,8 @@
 package com.shanhh.webhook.service.impl;
 
 import com.google.gson.Gson;
+import com.shanhh.webhook.integration.coding.beans.CodingEvent;
+import com.shanhh.webhook.integration.coding.beans.CodingPingPayload;
 import com.shanhh.webhook.integration.coding.beans.CodingPushPayload;
 import com.shanhh.webhook.integration.coding.service.CodingService;
 import com.shanhh.webhook.integration.daocloud.beans.DaocloudPayload;
@@ -9,12 +11,12 @@ import com.shanhh.webhook.integration.docker.beans.DockerPayload;
 import com.shanhh.webhook.integration.docker.service.DockerService;
 import com.shanhh.webhook.integration.microbadger.beans.MicrobadgerPayload;
 import com.shanhh.webhook.integration.microbadger.service.MicrobadgerService;
+import com.shanhh.webhook.integration.sonarqube.beans.SonarqubePayload;
+import com.shanhh.webhook.integration.sonarqube.service.SonarqubeService;
 import com.shanhh.webhook.repo.entity.Hook;
 import com.shanhh.webhook.repo.entity.SlackPayload;
 import com.shanhh.webhook.service.SlackService;
 import com.shanhh.webhook.service.WebhookService;
-import com.shanhh.webhook.integration.sonarqube.beans.SonarqubePayload;
-import com.shanhh.webhook.integration.sonarqube.service.SonarqubeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -73,9 +75,18 @@ public class WebhookServiceImpl implements WebhookService {
     }
 
     @Override
-    public void parseCoding(String event, String content) {
-        CodingPushPayload codingPayload = gson.fromJson(content, CodingPushPayload.class);
-        SlackPayload slackPayload = codingService.exec(codingPayload);
+    public void parseCoding(CodingEvent event, String content) {
+        SlackPayload slackPayload = null;
+        switch (event) {
+            case push:
+                slackPayload = codingService.exec(gson.fromJson(content, CodingPushPayload.class));
+                break;
+            case ping:
+                slackPayload = codingService.exec(gson.fromJson(content, CodingPingPayload.class));
+                break;
+            default:
+                slackPayload = null;
+        }
         slackService.send(Hook.coding, slackPayload);
     }
 

@@ -5,6 +5,7 @@ package com.shanhh.webhook.integration.coding.beans;
  * @since 2017-06-01 17:25
  */
 public enum CodingEvent {
+    ping,
     /**
      * 任何时间项目内的 Push 操作
      */

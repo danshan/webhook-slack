@@ -1,5 +1,6 @@
 package com.shanhh.webhook.controller;
 
+import com.shanhh.webhook.integration.coding.beans.CodingEvent;
 import com.shanhh.webhook.service.WebhookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +45,7 @@ public class WebhookController {
 
     @RequestMapping(value = "coding", method = RequestMethod.POST)
     public void parseCoding(
-            @RequestHeader("X-Coding-Event") String event,
+            @RequestHeader("X-Coding-Event") CodingEvent event,
             @RequestBody String content
     ) {
         log.info("coding request {}: {}", event, content);
