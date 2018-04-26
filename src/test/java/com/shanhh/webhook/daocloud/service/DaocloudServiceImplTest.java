@@ -1,17 +1,17 @@
 package com.shanhh.webhook.daocloud.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Charsets;
-import com.shanhh.webhook.daocloud.beans.DaocloudPayload;
-import com.shanhh.webhook.slack.beans.SlackAttaPayload;
-import com.shanhh.webhook.slack.beans.SlackPayload;
-
+import com.google.gson.Gson;
+import com.shanhh.webhook.PayloadUtils;
+import com.shanhh.webhook.integration.daocloud.beans.DaocloudPayload;
+import com.shanhh.webhook.integration.daocloud.service.DaocloudServiceImpl;
+import com.shanhh.webhook.repo.entity.SlackAttaPayload;
+import com.shanhh.webhook.repo.entity.SlackPayload;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import java.io.IOException;
+
+import static org.junit.Assert.*;
 
 /**
  * @author dan
@@ -20,50 +20,28 @@ import static org.junit.Assert.assertTrue;
 public class DaocloudServiceImplTest {
 
     private DaocloudServiceImpl daocloudService = new DaocloudServiceImpl();
+    private static final Gson gson = new Gson();
 
     @Test
     public void exec() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        String json = String.format(this.payload(), "Success");
-        DaocloudPayload payload = objectMapper.readValue(json.getBytes(Charsets.UTF_8), DaocloudPayload.class);
-        SlackPayload exec = daocloudService.exec(payload);
+        SlackPayload exec = daocloudService.exec(readPayload("build_success"));
         assertTrue(exec instanceof SlackAttaPayload);
 
         SlackAttaPayload slack = (SlackAttaPayload) exec;
         assertTrue(StringUtils.isNotBlank(slack.getAttachments().get(0).getText()));
         assertTrue(StringUtils.isNotBlank(slack.getAttachments().get(0).getFallback()));
-
     }
 
+    @Test
     public void testSkip() throws Exception {
-        ObjectMapper objectMapper = new ObjectMapper();
-        assertNull(daocloudService.exec(objectMapper.readValue(String.format(this.payload(), "Queue").getBytes(Charsets.UTF_8), DaocloudPayload.class)));
-        assertNull(daocloudService.exec(objectMapper.readValue(String.format(this.payload(), "Started").getBytes(Charsets.UTF_8), DaocloudPayload.class)));
-        assertNotNull(daocloudService.exec(objectMapper.readValue(String.format(this.payload(), "Error").getBytes(Charsets.UTF_8), DaocloudPayload.class)));
+        assertNull(daocloudService.exec(readPayload("build_queue")));
+        assertNull(daocloudService.exec(readPayload("build_started")));
+        assertNotNull(daocloudService.exec(readPayload("build_error")));
     }
 
-    private String payload() {
-        return "{\n" +
-                "        \"repo\":\"daocloud/api\",\n" +
-                "        \"image\":\"daocloud.io/daocloud/api:master-init\",\n" +
-                "        \"build_flow_id\":\"8d7622ea-9323-4489-8c8e-fc4bed448961\",\n" +
-                "        \"name\":\"api\",\n" +
-                "        \"build\":\n" +
-                "        {\n" +
-                "            \"status\":\"%s\",\n" +
-                "            \"duration_seconds\":180,\n" +
-                "            \"author\":\"DaoCloud\",\n" +
-                "            \"triggered_by\":\"tag\",\n" +
-                "            \"sha\":\"a7c35d9dc7e93788ce81befbadeb0108de495e5e\",\n" +
-                "            \"tag\":\"master-init\",\n" +
-                "            \"branch\": \"branch\",\n" +
-                "            \"pull_request\":\"pull_request\",\n" +
-                "            \"message\":\"init build \",\n" +
-                "            \"started_at\":\"2015-01-01T08:20:00+00:00\",\n" +
-                "            \"build_type\":\"image_build\"}\n" +
-                "        }\n" +
-                "    }";
+    private DaocloudPayload readPayload(String filename) throws IOException {
+        String json = PayloadUtils.readPayload(String.format("daocloud/%s.json", filename));
+        return gson.fromJson(json, DaocloudPayload.class);
     }
-
 
 }

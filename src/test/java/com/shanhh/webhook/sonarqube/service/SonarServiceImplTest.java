@@ -2,9 +2,11 @@ package com.shanhh.webhook.sonarqube.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Charsets;
-import com.shanhh.webhook.slack.beans.SlackAttaPayload;
-import com.shanhh.webhook.slack.beans.SlackPayload;
-import com.shanhh.webhook.sonarqube.beans.SonarPayload;
+import com.shanhh.webhook.integration.sonarqube.service.SonarqubeService;
+import com.shanhh.webhook.integration.sonarqube.service.SonarqubeServiceImpl;
+import com.shanhh.webhook.repo.entity.SlackAttaPayload;
+import com.shanhh.webhook.repo.entity.SlackPayload;
+import com.shanhh.webhook.integration.sonarqube.beans.SonarqubePayload;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
@@ -16,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * @since 2017-03-22 09:13
  */
 public class SonarServiceImplTest {
-    private SonarService sonarService = new SonarServiceImpl();
+    private SonarqubeService sonarService = new SonarqubeServiceImpl();
 
     @Test
     public void exec() throws Exception {
@@ -69,7 +71,7 @@ public class SonarServiceImplTest {
                 "        \"status\": \"SUCCESS\",\n" +
                 "        \"taskId\": \"AVh21JS2JepAEhwQ-b3u\"\n" +
                 "    }";
-        SonarPayload payload = objectMapper.readValue(json.getBytes(Charsets.UTF_8), SonarPayload.class);
+        SonarqubePayload payload = objectMapper.readValue(json.getBytes(Charsets.UTF_8), SonarqubePayload.class);
         SlackPayload exec = sonarService.exec(payload);
         assertTrue(exec instanceof SlackAttaPayload);
 

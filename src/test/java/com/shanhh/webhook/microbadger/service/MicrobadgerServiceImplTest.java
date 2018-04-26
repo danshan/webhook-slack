@@ -1,11 +1,11 @@
 package com.shanhh.webhook.microbadger.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.google.common.base.Charsets;
-import com.shanhh.webhook.microbadger.beans.MicrobadgerPayload;
-import com.shanhh.webhook.slack.beans.SlackAttaPayload;
-import com.shanhh.webhook.slack.beans.SlackPayload;
+import com.shanhh.webhook.integration.microbadger.beans.MicrobadgerPayload;
+import com.shanhh.webhook.integration.microbadger.service.MicrobadgerServiceImpl;
+import com.shanhh.webhook.repo.entity.SlackAttaPayload;
+import com.shanhh.webhook.repo.entity.SlackPayload;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
