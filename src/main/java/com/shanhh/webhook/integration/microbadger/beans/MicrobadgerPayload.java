@@ -1,12 +1,9 @@
 package com.shanhh.webhook.integration.microbadger.beans;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import com.google.gson.annotations.SerializedName;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -15,61 +12,43 @@ import java.util.List;
  * @author dan
  * @since 2017-03-05 23:41
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class MicrobadgerPayload implements Serializable {
-    /*
-    @formatter:on
-     {
-      "text":"MicroBadger: Docker Hub image org/name has changed",
-      "image_name":"org/name",
-      "new_tags":[],
-      "changed_tags":[
-        {
-          "tag":"latest",
-          "SHA":"123456789a...."
-        }
-      ],
-      "deleted_tags":[]
-    }
-    @formatter:off
-     */
 
     /**
-     * A field called 'text' means these webhooks work with Slack
+     * text : MicroBadger: Docker Hub image danshan/webhook-slack has changed https://microbadger.com/images/danshan/webhook-slack
+     * new_tags : []
+     * image_name : danshan/webhook-slack
+     * changed_tags : [{"SHA":"8d60f60f52af0ef5450ec83bfc6fdbce4c05e3ea636d5c083db9f8e98c715805","tag":"latest"}]
+     * deleted_tags : []
      */
+
+    @SerializedName("text")
     private String text;
-
-    /**
-     * Name of the changed image
-     */
-    @JsonProperty("image_name")
+    @SerializedName("image_name")
     private String imageName;
+    @SerializedName("new_tags")
+    private List<TagBean> newTags;
+    @SerializedName("changed_tags")
+    private List<TagBean> changedTags;
+    @SerializedName("deleted_tags")
+    private List<TagBean> deletedTags;
 
-    /**
-     * List of tags added to this image
-     */
-    @JsonProperty("new_tags")
-    private List<Tag> newTags;
-
-    /**
-     * List of tags where the SHA has changed. The SHA given is the new one for this tag.
-     */
-    @JsonProperty("changed_tags")
-    private List<Tag> changedTags;
-
-    /**
-     * List of tags that have been removed from this image
-     */
-    @JsonProperty("deleted_tags")
-    private List<Tag> deletedTags;
-
-    @Data
+    @Getter
+    @Setter
     @NoArgsConstructor
-    public static class Tag implements Serializable {
-        private String tag;
-        @JsonProperty("SHA")
+    public static class TagBean {
+        /**
+         * SHA : 8d60f60f52af0ef5450ec83bfc6fdbce4c05e3ea636d5c083db9f8e98c715805
+         * tag : latest
+         */
+
+        @SerializedName("SHA")
         private String SHA;
+        @SerializedName("tag")
+        private String tag;
     }
+
 }

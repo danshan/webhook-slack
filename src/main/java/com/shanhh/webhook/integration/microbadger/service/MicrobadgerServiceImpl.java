@@ -6,9 +6,7 @@ import com.shanhh.webhook.integration.microbadger.beans.MicrobadgerPayload;
 import com.shanhh.webhook.repo.entity.SlackAttaColor;
 import com.shanhh.webhook.repo.entity.SlackAttaPayload;
 import com.shanhh.webhook.repo.entity.SlackPayload;
-
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -34,7 +32,7 @@ public class MicrobadgerServiceImpl implements MicrobadgerService {
 
         List<SlackAttaPayload.Attachment.Field> fields = Lists.newLinkedList();
         if (!CollectionUtils.isEmpty(payload.getNewTags())) {
-            String tags = Joiner.on(" | ").join(payload.getNewTags().stream().map(MicrobadgerPayload.Tag::getTag).collect(Collectors.toList()));
+            String tags = Joiner.on(" | ").join(payload.getNewTags().stream().map(MicrobadgerPayload.TagBean::getTag).collect(Collectors.toList()));
             fields.add(SlackAttaPayload.Attachment.Field.builder()
                     .shortField(false)
                     .title("New Tags")
@@ -42,7 +40,7 @@ public class MicrobadgerServiceImpl implements MicrobadgerService {
                     .build());
         }
         if (!CollectionUtils.isEmpty(payload.getChangedTags())) {
-            String tags = Joiner.on(" | ").join(payload.getChangedTags().stream().map(MicrobadgerPayload.Tag::getTag).collect(Collectors.toList()));
+            String tags = Joiner.on(" | ").join(payload.getChangedTags().stream().map(MicrobadgerPayload.TagBean::getTag).collect(Collectors.toList()));
             fields.add(SlackAttaPayload.Attachment.Field.builder()
                     .shortField(false)
                     .title("Changed Tags")
@@ -50,7 +48,7 @@ public class MicrobadgerServiceImpl implements MicrobadgerService {
                     .build());
         }
         if (!CollectionUtils.isEmpty(payload.getDeletedTags())) {
-            String tags = Joiner.on(" | ").join(payload.getDeletedTags().stream().map(MicrobadgerPayload.Tag::getTag).collect(Collectors.toList()));
+            String tags = Joiner.on(" | ").join(payload.getDeletedTags().stream().map(MicrobadgerPayload.TagBean::getTag).collect(Collectors.toList()));
             fields.add(SlackAttaPayload.Attachment.Field.builder()
                     .shortField(false)
                     .title("Deleted Tags")
