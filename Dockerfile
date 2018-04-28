@@ -7,6 +7,7 @@ ENV SLACK_MICROBADGER slack_microbadger
 ENV SLACK_DOCKER slack_docker
 ENV SLACK_SONARQUBE slack_sonarqube
 ENV SLACK_CODING slack_coding
+ENV LOG_PATH /var/log/webhook-slack
 
 ENV PROJ_DIR /tmp/project
 ENV JAR_PATH ${PROJ_DIR}/target/application.jar
@@ -22,4 +23,4 @@ RUN rm -rf /etc/localtime && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo 'Asia/Shanghai' > /etc/timezone
 
 EXPOSE ${SERVER_PORT}
-ENTRYPOINT ["/bin/sh", "-c", "java -Dfile.encoding=UTF8 -Duser.timezone=GMT+08 -Dserver.port=${SERVER_PORT} -Dslack.daocloud=${SLACK_DAOCLOUD} -Dslack.microbadger=${SLACK_MICROBADGER} -Dslack.docker=${SLACK_DOCKER} -Dslack.sonarqube=${SLACK_SONARQUBE} -Dslack.coding=${SLACK_CODING} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar"]
+ENTRYPOINT ["/bin/sh", "-c", "java -Dfile.encoding=UTF8 -Duser.timezone=GMT+08 -Dserver.port=${SERVER_PORT} -Dslack.daocloud=${SLACK_DAOCLOUD} -Dslack.microbadger=${SLACK_MICROBADGER} -Dslack.docker=${SLACK_DOCKER} -Dslack.sonarqube=${SLACK_SONARQUBE} -Dslack.coding=${SLACK_CODING} -Djava.security.egd=file:/dev/./urandom -jar ${DIST_DIR}/application.jar", "--logging.path=${LOG_PATH}"]
