@@ -27,7 +27,7 @@ public class CodingServiceImpl implements CodingService {
         List<SlackAttaPayload.Attachment> attachments = Lists.newLinkedList();
         SlackAttaPayload.Attachment.AttachmentBuilder builder = SlackAttaPayload.Attachment.builder()
                 .color(SlackAttaColor.good.name())
-                .title(payload.getRef())
+//                .title(payload.getRef())
                 .mrkdwnIn(Arrays.asList("text"));
         if (!CollectionUtils.isEmpty(payload.getCommits())) {
             StringBuilder text = new StringBuilder();
@@ -43,7 +43,8 @@ public class CodingServiceImpl implements CodingService {
         }
         attachments.add(builder.build());
 
-        slack.setText(String.format("<%s|%s> updated `<%s|%s>`",
+        slack.setText(String.format("%s pushed <%s|%s> `<%s|%s>`",
+                payload.getPusher().getName(),
                 payload.getRepository().getHtmlUrl(),
                 payload.getRepository().getName(),
                 payload.getCompare(),
