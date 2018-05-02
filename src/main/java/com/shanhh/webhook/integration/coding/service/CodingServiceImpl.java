@@ -27,19 +27,27 @@ public class CodingServiceImpl implements CodingService {
         List<SlackAttaPayload.Attachment> attachments = Lists.newLinkedList();
         SlackAttaPayload.Attachment.AttachmentBuilder builder = SlackAttaPayload.Attachment.builder()
                 .color(SlackAttaColor.good.name())
-//                .title(payload.getRef())
+                .title(payload.getRef())
                 .mrkdwnIn(Arrays.asList("text"));
         if (!CollectionUtils.isEmpty(payload.getCommits())) {
             StringBuilder text = new StringBuilder();
-            payload.getCommits().stream()
-                    .forEach(commit -> {
-                        text.append("* ").append(commit.getCommitter().getName()).append(": ").append(commit.getShortMessage()).append("\n");
-                    });
+            payload.getCommits().forEach(commit -> {
+                text.append(String.format("* <%s|%s> %s: %s",
+                        commit.getUrl(),
+                        commit.getId().substring(0, 7),
+                        commit.getCommitter().getName(),
+                        commit.getMessage()
+                )).append("\n");
+            });
             builder.text(text.toString());
         }
         attachments.add(builder.build());
 
-        slack.setText(String.format("*%s* updated `%s`", payload.getRepository().getName(), payload.getRef()));
+        slack.setText(String.format("<%s|%s> updated `<%s|%s>`",
+                payload.getRepository().getHtmlUrl(),
+                payload.getRepository().getName(),
+                payload.getCompare(),
+                payload.getRef()));
         slack.setAttachments(attachments);
         slack.setMrkdwnIn(Arrays.asList("text"));
 
